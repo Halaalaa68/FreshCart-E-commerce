@@ -14,7 +14,7 @@ import toast from 'react-hot-toast';
 export default function Productdetails() {
     let {id} = useParams()
     let {token, setToken}= useContext(UserTokenContext) 
-    let {Cart, setCart}= useContext(CartContext)
+    let {Cart, setCart, setNumofCart}= useContext(CartContext)
     let {isAdd, setisAdd}= useContext(IsAddContext)
     let liked;
     let cartRes=[]
@@ -44,20 +44,23 @@ export default function Productdetails() {
     refetchOnWindowFocus: true,
     
   })
-  function getCart(){
-    return axios.get('https://ecommerce.routemisr.com/api/v1/cart', {
+  async function getCart(){
+    let res=await axios.get('https://ecommerce.routemisr.com/api/v1/cart', {
       headers: {
         token: token
       },
     },
   )
+  localStorage.setItem('NumofCart',Cart.length)
+  setNumofCart(localStorage.getItem('NumofCart'))
+  return res
   }
 
   }
 setCart(cartRes?.data?.data?.data?.products)
 setisAdd(response?.data?.data?.data)
   function postCart(id){
-    btn= Cart.find((element)=> element.product.id==id)
+    btn= Cart?.find((element)=> element.product.id==id)
     if(!btn){
       axios.post('https://ecommerce.routemisr.com/api/v1/cart',
         {
