@@ -109,7 +109,7 @@ export default function Cart() {
       },
     )
     localStorage.setItem('NumofCart',Cart.length)
-    // setNumofCart(localStorage.getItem('NumofCart'))
+    setNumofCart(localStorage.getItem('NumofCart'))
     setCartId(res.data.data._id)
     localStorage.setItem('Owner',res.data.data.cartOwner)
     return res
