@@ -9,7 +9,7 @@ import Loading from '../Loading/Loading'
 import empty from '../../assets/empty_cart.png'
 export default function Cart() {
   let {token, setToken}= useContext(UserTokenContext)
-  let {CartId, setCartId,CartOwner, setCartOwner}= useContext(CartContext)
+  let {CartId, setCartId,CartOwner, setCartOwner, Cart, setCart, setNumofCart}= useContext(CartContext)
   const [load, setLoad] = useState(false)
   const [cartSpin, setcartSpin] = useState(false)
   let btn;
@@ -17,6 +17,7 @@ export default function Cart() {
   {
     async function clearCart()
     {
+      setNumofCart(0)
       setcartSpin(true)
       let res= await axios.delete('https://ecommerce.routemisr.com/api/v1/cart',{
         headers:{
@@ -39,9 +40,6 @@ export default function Cart() {
           }
           )
       clearSpin()
-      console.log(removeres)
-      localStorage.setItem('firstLogin',true)
-      
       return res
     }
     function clearSpin(){
@@ -57,11 +55,9 @@ export default function Cart() {
       },
     },
     ).then((res)=>{
-      console.log(res)
       setLoad(false)
     }
-
-    ).catch((res)=>console.log(res))
+    )
     }
     function addProduct(id, count, qnty){
       if(count<qnty)
@@ -88,12 +84,12 @@ export default function Cart() {
           token: token
         }
       }).then((res)=>{
-        console.log(res)
         setLoad(false)
         toast.error('removed from cart successfully')
+        localStorage.setItem('NumofCart',Cart.length)
+        setNumofCart(localStorage.getItem('NumofCart'))
       }).catch((res)=>
         {
-        console.log(res)
         setLoad(false)
    })
     }
@@ -112,14 +108,12 @@ export default function Cart() {
         },
       },
     )
-    // console.log(res.data.data.cartOwner)
+    localStorage.setItem('NumofCart',Cart.length)
+    // setNumofCart(localStorage.getItem('NumofCart'))
     setCartId(res.data.data._id)
     localStorage.setItem('Owner',res.data.data.cartOwner)
-    // console.log(localStorage.getItem('Owner'))
     return res
-    // setCartId(res.data.data._id)
   }
-    // console.log(CartOwner)
     return(
       <>
       <div>
