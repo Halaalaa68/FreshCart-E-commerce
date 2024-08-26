@@ -175,7 +175,7 @@ function postCart(id){
       <div className='flex flex-wrap m-auto items-center gap-y-14 '>
         {data? data.map((product)=>(
           <div key={product._id} className='hover:shadow-2xl transition-all duration-200 pb-11 flex flex-col w-1/2 md:w-1/3 lg:w-1/5 xl:w-1/6 cursor-pointer justify-center items-center relative group'>
-            <Link to={`Productdetails/${product._id}`}>
+            <Link to={`/Productdetails/${product._id}`}>
             <div className='flex flex-col justify-center items-center'>
             <img src={product.imageCover} className='w-2/3' alt="" />
             <h3 className='text-[--main-color] font-serif'>{product.category.name}</h3>
